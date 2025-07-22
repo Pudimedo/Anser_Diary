@@ -20,7 +20,7 @@ pip install -r requirements.txt
 <details>
   <summary>Documentos</summary>
     <ul>
-        <li><a href='docs/requisitos_funcionas.md'>Requisitos Funcionais</a></li>
+        <li><a href='docs/requisitos_funcionais.md'>Requisitos Funcionais</a></li>
         <li><a href='docs/versionamento.md'>Versionamento</a></li>
     </ul>
 </details>  
