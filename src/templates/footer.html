@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    {% block title %} {% endblock title %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock head %}
+
+
+{% block content %}
+
+    <footer>
+
+        <div class="diario_virtual">
+            <h2>Diário Virtual</h2>
+            <p></p>
+        </div>
+
+        <div class="explore">
+            <h2>Explore</h2>
+            <a href="#"></a>
+        </div>
+
+        <div class="about">
+            <h2>About</h2>
+            <a href="#"></a>
+            <a href="#"></a>
+        </div>
+
+    </footer>
+
+{% endblock content %}
