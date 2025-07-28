@@ -1,4 +1,4 @@
-# Documento de Requisitos Funcionais - Diario_Virtual
+# Documento de Requisitos Funcionais - Anser_Diary
 
 **Tema** Sistema para criar Diários virtuais.
 
