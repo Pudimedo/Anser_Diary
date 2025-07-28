@@ -1,17 +1,17 @@
-# Diário Virtual
+# Anser Diary
 
-O *Diário Virtual* é um projeto desenvolvido para a disciplina técnica *PSI (Programa de Sistemas para Internet)*.
+O *Anser Diary* é um projeto desenvolvido para a disciplina técnica *PSI (Programa de Sistemas para Internet)*.
 
-O Diário Virtual é um sistema web para escrever, de forma virtual, o seu dia a dia, lembretes, entre outras funcionalidades.
+O Anser Diary é um sistema web para escrever, de forma virtual, o seu dia a dia, lembretes, entre outras funcionalidades.
 
 # Como executar localmente este projeto?
 
-O Diário Virtual é um projeto que utiliza o framework `Flask` em sua aplicação.
+O Anser Diary é um projeto que utiliza o framework `Flask` em sua aplicação.
 
 Portanto, para executar localmente esse projeto, siga os seguintes passos:
 1. Clone o repositório. Para isso, execute o seguinte comando no terminal:
 ```cmd
-git clone https://github.com/Pudimedo/Diario_Virtual.git
+git clone https://github.com/Pudimedo/Anser_Diary.git
 ```
 2. Em seguida, instale as dependências do projeto. Para instalar todos os requerimentos, utilize o comando:
 ```cmd
