@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 
 {% block head %}
-    {{ super() }}
-    {% block title %} {% endblock title %}
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
 {% endblock head %}
 
 
@@ -12,20 +11,20 @@
 
     <footer>
 
-        <div class="diario_virtual">
-            <h2>Diário Virtual</h2>
-            <p></p>
+        <div class="anser_diary">
+            <h2>Anser Diary</h2>
+            <p>The best web diary for you. Write your thoughts and do your schedule or even share your diaries with your most trusted ones!</p>
         </div>
 
         <div class="explore">
             <h2>Explore</h2>
-            <a href="#"></a>
+            <a href="{{url_for('index')}}">Home Page</a>
         </div>
 
         <div class="about">
             <h2>About</h2>
-            <a href="#"></a>
-            <a href="#"></a>
+            <a href="#">About Anser Diary</a>
+            <a href="#">Who is the creator of this website</a>
         </div>
 
     </footer>

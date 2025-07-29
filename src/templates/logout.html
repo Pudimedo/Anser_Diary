@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+    <title> Logout </title>
+
+{% endblock head %}
+
+{% block content %}
+
+    <form action="{{url_for('logout')}}" method="post">
+        
+        <button type="submit">Desconectar</button>
+
+    </form>
+{% endblock content %}

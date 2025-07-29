@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+    <title> Register </title>
+
+{% endblock head %}
+
+{% block content %}
+
+    <form action="{{url_for('register')}}" method="post">
+        <label for="nome">Username:</label>
+        <input type="text" placeholder="exemplouser3" name="username">
+
+        <label for="email">Email:</label>
+        <input type="email" placeholder="fulano@exemplo.com" name="email">
+
+        <label for="password">Password:</label>
+        <input type="password" placeholder="Password" name="password">
+    
+        <button type="submit">Submit</button>
+
+    </form>
+
+    {% include "footer.html" %}
+
+{% endblock content %}

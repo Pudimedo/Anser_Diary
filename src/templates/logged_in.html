@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block head %}
+
+    <title> Home Page </title>
+    
+{% endblock head %}
+
+{% block content %}
+
+    {% include "header.html" %}
+        {{ super() }}
+                    
+        
+        <nav>
+
+            <a href="{{url_for('index')}}">Home Page</a>
+            <a href="{{url_for('logout')}}">Logout</a>
+
+        </nav>
+
+{% endblock content %}

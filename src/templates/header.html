@@ -2,8 +2,6 @@
 
 {% block head %}
 
-    {{ super() }}
-    {% block title %}{% endblock title %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
 
 {% endblock head %}
@@ -12,8 +10,13 @@
 
     <header>
 
+        <a href="/"><img src="" alt="logo"></a>
         
-    
+        <div class="menu_area">
+
+        </div>
+
     </header>
+
 
 {% endblock content %}

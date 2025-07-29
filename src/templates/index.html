@@ -1,24 +1,32 @@
 {% extends "base.html" %}
 
 {% block head %}
-    {{ super() }}
-    {% block title %} Homepage {% endblock title %}
+
+    <title> Home Page </title>
+    
 {% endblock head %}
 
 {% block content %}
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+    {% if logged_in %}
+        
+        {% include "logged_in.html" %}
+        <p>ta logado</p>
 
-    <button><a href="{{url_for('register')}}">Register</a></button>
-    <button><a href="{{url_for('login')}}">login</a></button>
+    {% else %}
+    
+        {% include "header.html" %}
+                
+            <p>ta deslogado</p>
+            <nav>
+                <a href="/">Home Page</a>
+                <a href="{{ url_for('login') }}">Sign in</a>
+                <a href="{{ url_for('register') }}">Register</a>
+
+            </nav>
+        
+    {% endif %}
 
     {% include "footer.html" %}
+
 {% endblock content %}
