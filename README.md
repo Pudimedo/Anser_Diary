@@ -13,10 +13,16 @@ Portanto, para executar localmente esse projeto, siga os seguintes passos:
 ```cmd
 git clone https://github.com/Pudimedo/Anser_Diary.git
 ```
-2. Em seguida, instale as dependências do projeto. Para instalar todos os requerimentos, utilize o comando:
+2. Em seguida, instale as dependências do projeto. Para instalar todos os requerimentos, execute o comando:
 ```cmd
 pip install -r requirements.txt
 ```
+3. Por fim, em seu terminal execute o comando:
+```cmd
+cd src
+app.py
+```
+
 <details>
   <summary>Documentos</summary>
     <ul>
