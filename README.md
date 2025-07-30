@@ -35,7 +35,6 @@ app.py
   <summary>Aplicação</summary>
     <ul>
         <li><a href='src/app.py'>Código main da aplicação</a></li>
-        <li><a href='src/database/insert.py'>Insert no banco de dados</a></li>
         <li><a href='src/database/schema.sql'>Schema</a></li>
         <li><a href='src/templates/'>Templates</a></li>
     </ul>
