@@ -1,5 +1,6 @@
 from flask import * 
 from flask_login import *
+from werkzeug.security import generate_password_hash
 
 import sqlite3
 # Créditos desse código a Lívia Lopes
@@ -12,27 +13,28 @@ def get_connection() -> sqlite3.Connection:
     return conection
 
 class User(UserMixin):
-    def __init__(self, email: str, password_hash: str) -> None:
+    def __init__(self, email: str, username) -> None:
         self.email = email
-        self.password_hash = password_hash
+        self.username = username
         
     @classmethod
-    def get(cls, user_id: str) -> "User | None":
+    def get(cls, email) -> "User | None":
         # user_id: email do usuário como chave única
         connection = get_connection()
         sql = "SELECT * FROM tb_usuario WHERE usu_email = ?"
-        resultado = connection.execute(sql, (user_id,)).fetchone() # Execta o código sql na connection e retorna em forma de tupla(ou None) com o fetchone
+        resultado = connection.execute(sql, (email,)).fetchone() # Execta o código sql na connection e retorna em forma de tupla(ou None) com o fetchone
         if resultado:
-            user = User(email=resultado['usu_email'], password_hash=resultado['usu_password_hash'])
-            user.id = resultado['usu_email']
+            user = User(email=resultado['usu_email'], username=resultado['usu_username'])
+            user.id = user.email
             connection.close()
             return user
         
         connection.close()
     
-    def set(self, username: str) -> None:
+    def set(self, password) -> None:
         connection = get_connection()
         sql = "INSERT INTO tb_usuario (usu_username, usu_email, usu_password_hash) VALUES (?, ?, ?)"
-        connection.execute(sql, (username, self.email, self.password_hash))
+        password_hash = generate_password_hash(password)
+        connection.execute(sql, (self.username, self.email, password_hash))
         connection.commit() # Para salvar a alteração no banco
         connection.close()

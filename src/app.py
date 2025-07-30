@@ -17,13 +17,14 @@ initDatabase()
 
 
 @login_manager.user_loader
-def load_user(user_id): # user_id = email
-    return User.get(user_id)
+def load_user(email: str): 
+    return User.get(email)
 
 
 @app.route("/")
 def index():
     return render_template("index.html", logged_in=current_user.is_authenticated)
+
 
 # Rota de Cadastro
 @app.route("/register", methods = ['GET', 'POST'])
@@ -35,30 +36,38 @@ def register():
         password = request.form['password']
         email = request.form['email']
 
-        if not User.get(email): # Se ainda não existir um user com esse email
-            password_hash = generate_password_hash(password)
+        if not load_user(email): # Se ainda não existir um user com esse email
 
-            user = User(email, password_hash)
-            user.set(username)
+            user = User(email, username)
+            user.set(password)
 
         return redirect(url_for("login"))
 
 
     return render_template("register.html")
 
-@app.route("/login", methods = ['GET', 'POST'])
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    # Se tiver user cadastrado será redirecionado para a Home Page e logado, se não, será avisado que email ou senha estão errados 
     if request.method == "POST":
+        # Se tiver user cadastrado será redirecionado para a Home Page e logado, se não, será avisado que email ou senha estão errados 
         email = request.form["email"]
         password = request.form["password"]
-        user = load_user(email)
 
-        if user and check_password_hash(user.password_hash, password):
+        connection = get_connection()
+        sql = "SELECT * FROM tb_usuario WHERE usu_email = ?"
+        resultado = connection.execute(sql, (email,)).fetchone()
+        connection.close()
+
+        if resultado and check_password_hash(resultado["usu_password_hash"], password):
+            user = load_user(email)
             login_user(user)
             return redirect(url_for("index"))
 
+        flash("Email ou senha incorretos.")
+
     return render_template("login.html")
+
 
 @app.route("/logout", methods = ["GET", "POST"])
 @login_required
@@ -69,6 +78,7 @@ def logout():
         return redirect(url_for('index'))
 
     return render_template("logout.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
