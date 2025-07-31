@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <title>{{ diary.dia_title }}</title>
+{% endblock head %}
+
+{% block content %}
+    <h1>{{ diary.dia_title }}</h1>
+
+    <!-- Conteúdo do diário -->
+    <p>{{ diary.dia_content }}</p>
+
+    <!-- Editar -->
+    <form method="post">
+        <input type="hidden" name="action" value="edit">
+        <textarea name="new_content" placeholder="Editar conteúdo do diário">{{ diary.dia_content }}</textarea>
+        <button type="submit">Salvar</button>
+    </form>
+
+    <form action="{{url_for('index')}}"> <button type="submit"> Sair </button> </form>
+    
+{% endblock content %}

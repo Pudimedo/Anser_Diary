@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-
     <title> Home Page </title>
-    
 {% endblock head %}
 
 {% block content %}
@@ -11,22 +9,41 @@
     {% if logged_in %}
         
         {% include "logged_in.html" %}
-        <p>ta logado</p>
+        <p>logado</p>
+        
+        <!-- Criar diário -->
+        <form method="post">
+            <input type="hidden" name="action" value="create">
+            <input type="text" name="title" placeholder="Novo Diário">
+            <button type="submit">Criar novo Diário</button>
+        </form>
+
+        {% for diary in diaries %}
+            <div class="diary">
+                <p>{{ diary.dia_title }}</p>
+
+                <!-- Acessar diário (Ver ou Editar) -->
+                <form action="{{ url_for('diary', diary_id=diary.dia_id) }}"><button type="submit">Acessar</button></form>
+
+                <!-- Deletar diário -->
+                <form method="post" onsubmit="return confirm('Tem certeza que deseja apagar?');">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="diary_id" value="{{ diary.dia_id }}">
+                    <button type="submit">Apagar</button>
+                </form>
+            </div>
+        {% endfor %}
 
     {% else %}
-    
         {% include "header.html" %}
-                
-            <p>ta deslogado</p>
-            <nav>
-                <a href="/">Home Page</a>
-                <a href="{{ url_for('login') }}">Sign in</a>
-                <a href="{{ url_for('register') }}">Register</a>
-
-            </nav>
-        
+        <p>deslogado</p>
+        <nav>
+            <a href="/">Home Page</a>
+            <a href="{{ url_for('login') }}">Entrar</a>
+            <a href="{{ url_for('register') }}">Registrar</a>
+        </nav>
     {% endif %}
 
     {% include "footer.html" %}
-
+    
 {% endblock content %}
