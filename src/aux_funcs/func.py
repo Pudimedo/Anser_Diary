@@ -24,6 +24,7 @@ class User(UserMixin):
         if resultado:
             user = User(email=resultado['usu_email'], password_hash=resultado['usu_password_hash'])
             user.id = resultado['usu_email']
+            user.burrice_de_godofredo = resultado['usu_id'] # Era pra o user.id ser o id mas coloquei como email, agr meio que não tem tempo pra mudar
             connection.close()
             return user
         

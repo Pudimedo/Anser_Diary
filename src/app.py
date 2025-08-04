@@ -25,6 +25,7 @@ def load_user(user_id): # user_id = email
 
 def index():
     logged_in = current_user.is_authenticated
+    print(current_user.burrice_de_godofredo)
 
     if request.method == "POST":
         action = request.form.get("action")
@@ -124,12 +125,15 @@ def diary(diary_id):
 
     # Verificar se o diário é privado (share = false) e o usuário não é o dono
     if not diary['dia_share'] and diary['dia_usu_id'] != current_user.id:
-        print(diary["dia_share"])
         flash("Você não tem permissão para acessar este diário.", "error")
         return redirect(url_for("index"))
 
     return render_template("diario.html", diary=diary)
 
+
+@app.route("/profile/<int:user_id>")
+def profile(user_id):
+    return render_template('profile.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
