@@ -31,18 +31,17 @@ def index():
 
         if action == "create":
             title = request.form.get("title")
-            title = title if title else "Novo Diário" # se título for "" dai vai o DEFALT
+            title = title if title else "Novo Diário" # se título for "" dai vai o DEFAULT
 
-            diary = Diary(current_user)
-            diary.create(title=title)
+            diary_id = addDiary(user=current_user, title=title)
 
+            return redirect(url_for('diary', diary_id=diary_id))
+        
         elif action == "delete":
             diary_id = int(request.form.get("diary_id"))
 
-            diary = Diary(current_user)
-            diary.delete(diary_id)
+            deleteDiary(diary_id)
 
-        return redirect(url_for("index"))
 
     # busca os diários do usuário para exibir no HTML
     if logged_in:
@@ -54,6 +53,7 @@ def index():
         return render_template("index.html", logged_in=logged_in, diaries=diaries)
 
     return render_template("index.html", logged_in=current_user.is_authenticated)
+
 
 
 # Rota de Cadastro
@@ -105,22 +105,30 @@ def logout():
 @login_required
 def diary(diary_id):
     if request.method == "POST":
-        ...
+        title = request.form.get('title')
+        content = request.form.get('content')
+        share = request.form.get('share')
 
-    # Busca o diário específico com o id do diário e o id do usuário logado
-    connection = get_connection()
-    diary = connection.execute(
-        "SELECT * FROM tb_diarios WHERE dia_id = ? AND dia_usu_id = ?",
-        (diary_id, current_user.id)).fetchone()
-    connection.close()
+        updateDiary(id=diary_id, title=title, content=content, share=share)
+        
+        return redirect(url_for('index'))
+        
 
-    # Se o diário não existir ou não pertencer ao usuário atual, retorna um erro ou redireciona
+    # Obter o diário
+    diary = getDiary(diary_id)
+
+    # Verificar se o diário existe
     if not diary:
-        return 'Você não tem permissão para acessar este diário.', 403
+        flash("Diário não encontrado", "error")
+        return redirect(url_for("index"))
 
-    # Se o diário pertence ao usuário, renderiza a página com o diário
+    # Verificar se o diário é privado (share = false) e o usuário não é o dono
+    if not diary['dia_share'] and diary['dia_usu_id'] != current_user.id:
+        print(diary["dia_share"])
+        flash("Você não tem permissão para acessar este diário.", "error")
+        return redirect(url_for("index"))
+
     return render_template("diario.html", diary=diary)
-
 
 
 if __name__ == "__main__":

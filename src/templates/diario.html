@@ -5,15 +5,16 @@
 {% endblock head %}
 
 {% block content %}
-    <h1>{{ diary.dia_title }}</h1>
+    
 
-    <!-- Conteúdo do diário -->
-    <p>{{ diary.dia_content }}</p>
-
-    <!-- Editar -->
     <form method="post">
-        <input type="hidden" name="action" value="edit">
-        <textarea name="new_content" placeholder="Editar conteúdo do diário">{{ diary.dia_content }}</textarea>
+        <input type="text" name="title" value="{{ diary.dia_title }}">
+        <label for="share">Diario público
+        <input type="checkbox" name="share" {% if diary.dia_share %}
+        checked 
+        {% endif %}>
+        </label>
+        <textarea name="content" placeholder="Escreva seu diário aqui">{{ diary.dia_content }}</textarea>
         <button type="submit">Salvar</button>
     </form>
 

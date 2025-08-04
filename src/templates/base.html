@@ -15,6 +15,14 @@
 <body>
     
     {% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <script type="text/javascript">
+                // Exibe uma mensagem de alerta com todas as mensagens flash
+                alert("{% for message in messages %}{{ message }}\n{% endfor %}");
+            </script>
+        {% endif %}
+    {% endwith %}
 
     
 

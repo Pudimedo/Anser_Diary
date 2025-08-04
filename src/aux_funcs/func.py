@@ -16,7 +16,7 @@ class User(UserMixin):
         self.password_hash = password_hash
         
     @classmethod
-    def get(cls, user_id: str) -> "User | None":
+    def get(cls, user_id: str) -> "User | None": # Retorna o User com base no user_id (email)
         # user_id: email do usuário como chave única
         connection = get_connection()
         sql = "SELECT * FROM tb_usuario WHERE usu_email = ?"
@@ -36,42 +36,49 @@ class User(UserMixin):
         connection.commit() # Para salvar a alteração no banco
         connection.close()
     
-class Diary:
-    def __init__(self, user: User) -> None:
-        self.user = user
-        
 
-    def create(self, share=False, title="Novo Diário") -> int: # Cria o diário e retorna o id dele
-        connection = get_connection()
-        cursor = connection.cursor()
+def addDiary(user: "User", title: str = "Novo Diário", content: str = "", share: bool = False) -> int: # Gera um novo diário e retorna o id
+    connection = get_connection()
+    cursor = connection.cursor()
 
-        sql = "INSERT INTO tb_diarios (dia_usu_id, dia_title, dia_share) VALUES (?, ?, ?)"
-        cursor.execute(sql, (self.user.id, title, share))
-        diary_id = cursor.lastrowid
+    sql = "INSERT INTO tb_diarios (dia_usu_id, dia_title, dia_content, dia_share) VALUES (?, ?, ?, ?)"
 
-        connection.commit()
-        connection.close()
+    cursor.execute(sql, (user.id, title, content, share))
+    connection.commit()
 
-        return diary_id
+    diary_id = cursor.lastrowid
+
+    connection.close()
+    
+    return diary_id
+
+    
+def getDiary(id: int) -> tuple | None: # Retorna as infos do diario com base no id (id)
+    connection = get_connection()
+    sql = "SELECT * FROM tb_diarios WHERE dia_id = ?"
+    diary = connection.execute(sql, (id,)).fetchone()
+    connection.close()
+
+    return diary
 
 
-    def update(self, diary_id: int, title: str, content: str, share: bool) -> None: # Muda um diário
-        connection = get_connection()
-        sql = """
+def updateDiary(id: int, title: str = "Novo Diário", content: str = "", share: bool = False) -> None: # Muda um diário
+    connection = get_connection()
+    sql = """
             UPDATE tb_diarios 
             SET dia_title = ?, dia_content = ?, dia_share = ?, dia_date = DATETIME('now', 'localtime')
-            WHERE dia_id = ? AND dia_usu_id = ?
+            WHERE dia_id = ?
         """
         
-        connection.execute(sql, (title, content, share, diary_id, self.user.id))
-        connection.commit()
-        connection.close()
+    connection.execute(sql, (title, content, share, id))
+    connection.commit()
+    connection.close()
 
 
-    def delete(self, diary_id) -> None: # Deleta um diário
-            connection = get_connection()
-            sql = "DELETE FROM tb_diarios WHERE dia_id = ? AND dia_usu_id = ?"
+def deleteDiary(id: int) -> None: # Deleta um diário
+    connection = get_connection()
+    sql = "DELETE FROM tb_diarios WHERE dia_id = ?"
 
-            connection.execute(sql, (diary_id, self.user.id))
-            connection.commit()
-            connection.close()
+    connection.execute(sql, (id,))
+    connection.commit()
+    connection.close()
