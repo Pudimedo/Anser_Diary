@@ -24,8 +24,13 @@ def load_user(user_id): # user_id = email
 @app.route("/", methods=["GET", "POST"])
 
 def index():
+    
     logged_in = current_user.is_authenticated
-    print(current_user.burrice_de_godofredo)
+    conn = get_connection()
+    a = conn.execute("SELECT * FROM tb_usuario").fetchall()
+    for i in a:
+        for j in i:
+            print(j)
 
     if request.method == "POST":
         action = request.form.get("action")
@@ -46,11 +51,7 @@ def index():
 
     # busca os diários do usuário para exibir no HTML
     if logged_in:
-        connection = get_connection()
-        diaries = connection.execute(
-            "SELECT * FROM tb_diarios WHERE dia_usu_id = ? ORDER BY dia_date ASC",
-            (current_user.id,)).fetchall()
-        connection.close()
+        diaries = get_every_diary_from_user(current_user)
         return render_template("index.html", logged_in=logged_in, diaries=diaries)
 
     return render_template("index.html", logged_in=current_user.is_authenticated)
@@ -64,9 +65,9 @@ def register():
     if request.method == 'POST':
         # Coletando dados do formulário
         username = request.form['username']
-        password = request.form['password']
         email = request.form['email']
 
+        password = request.form['password']
         if not User.get(email): # Se ainda não existir um user com esse email
             password_hash = generate_password_hash(password)
 
@@ -105,18 +106,23 @@ def logout():
 @app.route("/diario/<int:diary_id>", methods=["GET", "POST"])
 @login_required
 def diary(diary_id):
-    if request.method == "POST":
-        title = request.form.get('title')
-        content = request.form.get('content')
-        share = request.form.get('share')
-
-        updateDiary(id=diary_id, title=title, content=content, share=share)
-        
-        return redirect(url_for('index'))
-        
-
     # Obter o diário
     diary = getDiary(diary_id)
+
+    if request.method == "POST":
+        if diary['dia_usu_id'] == current_user.id: # Só o dono do diário pode modificar o seu diário
+            title = request.form.get('title')
+            content = request.form.get('content')
+            share = request.form.get('share')
+            
+            updateDiary(id=diary_id, title=title, content=content, share=share)
+            
+            return redirect(url_for('index'))
+        
+        flash("Somente o dono do diário pode modificar as informações do diário!", "error")
+
+        return redirect(url_for("index"))
+        
 
     # Verificar se o diário existe
     if not diary:
@@ -131,9 +137,47 @@ def diary(diary_id):
     return render_template("diario.html", diary=diary)
 
 
-@app.route("/profile/<int:user_id>")
+@app.route("/profile/<int:user_id>", methods=["GET", "POST"])
 def profile(user_id):
-    return render_template('profile.html')
+    profile_user = get_user_by_id(user_id)
+
+    if request.method == "POST":
+        action = request.form.get("action")
+        
+        if user_id == current_user.user_id: # Somente o dono do perfil pode modificar seu perfil
+            if action == "delete_user":
+
+                current_user.delete()
+
+                return redirect(url_for("index"))
+            
+            elif action == "delete_diary":
+                diary_id = int(request.form.get("diary_id"))
+
+                deleteDiary(diary_id)
+
+                return redirect(url_for("profile", user_id=user_id))
+                
+            
+    # retorna profile.html, user_id que é o id do user atual, profile_user que é o user do profile atual e diaries que são os diarios do user do profile atual
+    return render_template('profile.html', user_id=user_id, profile_user=profile_user, diaries=get_every_diary_from_user(profile_user)) # Acho que eu nunca fiz um código tão feio
+
+
+@app.route("/edit_profile", methods=["GET", "POST"])
+@login_required
+def edit_profile():
+
+    if request.method == "POST":
+        action = request.form.get("action")
+
+        if action == "change_username":
+            new_username = request.form.get("username")
+            current_user.update(new_username=new_username)
+            
+            return redirect(url_for("profile", user_id=current_user.user_id))
+
+    return render_template("edit_profile.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)

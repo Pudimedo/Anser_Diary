@@ -11,9 +11,60 @@
     {% include "logged_in.html" %}
 
 
-    <h1>AAAAAAAAAAAAAAAAA</h1>
+    <div class="profile_img">
+
+        <img src="" alt="imagem de perfil"> <!-- Quando clicar aqui ele vai pode mudar a foto de perfil -->
+
+    </div>
+
+
+    {% if user_id == current_user.user_id %} <!-- Se o usuário estiver acessando o profile de sua conta -->
+
+        <form action="{{url_for('edit_profile')}}"> <button type="submit">Editar Perfil</button></form> <!-- Editar o perfil -->
+
+        {% for diary in diaries %}
+            <div class="diary">
+                <p>{{ diary.dia_title }}</p>
+
+                <!-- Acessar diário (Ver ou Editar) -->
+                <form action="{{ url_for('diary', diary_id=diary.dia_id) }}"><button type="submit">Acessar</button></form>
+
+                 <!-- Deletar diário -->
+                <form method="post" onsubmit="return confirm('Tem certeza que deseja apagar?');">
+                    <input type="hidden" name="action" value="delete_diary">
+                    <input type="hidden" name="diary_id" value="{{ diary.dia_id }}">
+                    <button type="submit">Apagar</button>
+                </form>
+            </div>
+        {% endfor %}
+
+
+        
+    {% else %} <!-- Se o usuário estiver acessando o profile de uma conta que não é dele -->
+        {% for diary in diaries %}
+            {% if diary.dia_share %}
+                <div class="diary">
+                    <p>{{ diary.dia_title }}</p>
+
+                    <!-- Acessar diário (Ver ou Editar) -->
+                    <form action="{{ url_for('diary', diary_id=diary.dia_id) }}"><button type="submit">Acessar</button></form>
+                </div>
+
+            {% endif %}
+        {% endfor %}
+
+    {% endif %} <!-- Depois desse endif os contéudos que aparecem são comuns a todos os casos -->
+
+    <h1>{{ profile_user.username }}</h1> <!-- Username do usuário -->
+
+    <form method="post">
+        <input type="hidden" name="action" value="delete_user">
+        <button type="submit" onclick="return confirm('Tem certeza que quer apagar sua conta? ')">Deletar conta</button>
+    
+    </form>
+    
 
 
     {% include "footer.html" %}
 
-{% endblock %}
+{% endblock content %}

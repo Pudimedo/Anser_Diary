@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+    <title> Editar Perfil </title>
+    
+{% endblock head %}
+
+{% block content %}
+    {% include "logged_in.html" %}
+
+    <form method="post">
+        <input type="hidden" name="action" value="change_username">
+        <input type="text" name="username" value=" {{ current_user.username }} ">
+        <button type="submit">Mudar Nome</button>
+         
+    </form>
+
+    
+    <form method="post">
+        <input type="hidden" name="action" value="change_profile_pic">
+        <button type="submit">Mudar foto</button>
+        
+    </form>
+
+
+    {% include "footer.html" %}
+{% endblock content %}

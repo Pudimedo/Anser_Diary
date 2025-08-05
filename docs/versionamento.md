@@ -16,3 +16,11 @@
 - Feito segurança de dados com implementação de senhas com hash seguros  
 - Feito login, logout e registro funcionais
 - Utilizado Flask-Login para manter usuário autenticado
+
+## 3. Major commit (05/08/2025) "Implementação do CRUD parcialmente completo"
+
+- Feito as funções de criar, editar e deletar diários
+- Feito as funções de criar, editar e deletar usuários
+- Feito a funcionalidade de publicação dos diários
+- Feito a funcionalidade de visualização de profiles de outros usuários
+- Feito a funcionalidade de visualização de diários de outros usuários

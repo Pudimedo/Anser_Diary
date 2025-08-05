@@ -23,20 +23,44 @@ class User(UserMixin):
         resultado = connection.execute(sql, (user_id,)).fetchone() # Execta o código sql na connection e retorna em forma de tupla(ou None) com o fetchone
         if resultado:
             user = User(email=resultado['usu_email'], password_hash=resultado['usu_password_hash'])
-            user.id = resultado['usu_email']
-            user.burrice_de_godofredo = resultado['usu_id'] # Era pra o user.id ser o id mas coloquei como email, agr meio que não tem tempo pra mudar
+            user.id = resultado['usu_email'] # por algum motivo se eu tirar o user.id = resultado['usu_email'] da ruim
+            user.user_id = resultado['usu_id']
+            user.username = resultado['usu_username']
+
             connection.close()
             return user
         
         connection.close()
-    
+        
     def add(self, username: str) -> None:
         connection = get_connection()
         sql = "INSERT INTO tb_usuario (usu_username, usu_email, usu_password_hash) VALUES (?, ?, ?)"
         connection.execute(sql, (username, self.email, self.password_hash))
         connection.commit() # Para salvar a alteração no banco
         connection.close()
+
+    def update(self, new_username: str = None, new_profile_pic: str = None) -> None:    
+        connection = get_connection()
+
+        if new_username:
+            sql = "UPDATE tb_usuario SET usu_username = ? WHERE usu_email = ?"
+            connection.execute(sql, (new_username, self.email))
+            
+
+        if new_profile_pic:
+            sql = "UPDATE tb_usuario SET usu_profile_pic = ? WHERE usu_email = ?"
+            connection.execute(sql, (new_profile_pic, self.email))
+        
+        connection.commit()
+        connection.close()
     
+    def delete(self):
+        connection = get_connection()
+        sql = "DELETE FROM tb_usuario WHERE usu_email = ?"
+        connection.execute(sql, (self.email,))
+        connection.commit()
+        connection.close()
+
 
 def addDiary(user: "User", title: str = "Novo Diário", content: str = "", share: bool = False) -> int: # Gera um novo diário e retorna o id
     connection = get_connection()
@@ -83,3 +107,27 @@ def deleteDiary(id: int) -> None: # Deleta um diário
     connection.execute(sql, (id,))
     connection.commit()
     connection.close()
+
+def get_every_diary_from_user(user: User) -> sqlite3.SQLITE_ROW:
+    connection = get_connection()
+    sql = "SELECT * FROM tb_diarios WHERE dia_usu_id = ?"
+    diaries = connection.execute(sql, (user.id,)).fetchall()
+    
+    connection.close()
+
+    return diaries
+
+
+def get_user_by_id(user_id: int) -> User:
+        connection = get_connection()
+        sql = "SELECT * FROM tb_usuario WHERE usu_id = ?"
+        resultado = connection.execute(sql, (user_id,)).fetchone()
+        if resultado:
+            user = User(email=resultado['usu_email'], password_hash=resultado['usu_password_hash'])
+            user.username = resultado['usu_username']
+            user.profile_pic = resultado['usu_profile_pic']         
+            user.id = resultado['usu_email']   
+
+            connection.close()
+            return user
+
