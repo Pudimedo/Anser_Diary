@@ -16,7 +16,7 @@
 - **RF05**: Usuário poderá visualizar todos os diários que ele criou.
 - **RF06**: Usuário poderá editar o conteúdo de seus diários .
 - **RF07**: Usuário poderá excluir um diário de sua lista de diários.
-- **RF08**: Usuário poderá editar informações do perfil, como nome, foto e outros dados pessoais.
+- **RF08**: Usuário poderá editar informações do perfil, como nome e outros dados pessoais.
 - **RF09**: Usuário poderá visualizar seu perfil conforme atualizações.
 - **RF10**: Usuário poderá escolher quais de seus diários serão públicos.
 

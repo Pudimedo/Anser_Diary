@@ -13,8 +13,13 @@
 
 </head>
 <body>
+
     
+
     {% block content %}
+
+    {% endblock content %}
+    
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <script type="text/javascript">
@@ -23,10 +28,8 @@
             </script>
         {% endif %}
     {% endwith %}
-
     
-
-    {% endblock content %}
+    
 
 </body>
 
