@@ -13,12 +13,13 @@
 
 </head>
 <body>
-
     
+    {% include "header.html" %}
 
-    {% block content %}
-
-    {% endblock content %}
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
     
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -29,7 +30,7 @@
         {% endif %}
     {% endwith %}
     
-    
+    {% include "footer.html" %}
 
 </body>
 

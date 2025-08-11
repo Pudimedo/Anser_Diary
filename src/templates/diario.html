@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block head %}
+    {{ super() }}
     <title>{{ diary.dia_title }}</title>
 {% endblock head %}
 
 {% block content %}
     
-
     <form method="post">
         <input type="text" name="title" value="{{ diary.dia_title }}">
         

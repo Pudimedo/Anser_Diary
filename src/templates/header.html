@@ -1,22 +1,24 @@
-{% extends "base.html" %}
+<header class="main-header">
+    <div class="container header-container">
 
-{% block head %}
+        <a href="{{ url_for('index') }}" class="logo-link">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo"> 
+        </a>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+        <nav class="main-nav">
+            
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('profile', user_id=current_user.user_id) }}">Perfil</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
 
-{% endblock head %}
+            {% else %}
+                <a href="{{ url_for('login') }}">Entrar</a>
+                <a href="{{ url_for('register') }}" class="btn">Registrar</a>
 
-{% block content %}
+            {% endif %}
+            
+        </nav>
 
-    <header>
-
-        <a href="/"><img src="" alt="logo"></a>
-        
-        <div class="menu_area">
-
-        </div>
-
-    </header>
-
-
-{% endblock content %}
+    </div>
+</header>

@@ -26,11 +26,6 @@ def load_user(user_id): # user_id = email
 def index():
     
     logged_in = current_user.is_authenticated
-    conn = get_connection()
-    a = conn.execute("SELECT * FROM tb_usuario").fetchall()
-    for i in a:
-        for j in i:
-            print(j)
 
     if request.method == "POST":
         action = request.form.get("action")

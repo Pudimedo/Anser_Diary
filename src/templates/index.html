@@ -1,48 +1,59 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <title> Home Page </title>
+    {{super()}}
+    <title> Anser Diary </title>
 {% endblock head %}
 
 {% block content %}
 
     {% if logged_in %}
-        
-        {% include "logged_in.html" %}
-        
-        <!-- Criar diário -->
-        <form method="post">
-            <input type="hidden" name="action" value="create">
-            <input type="text" name="title" placeholder="Novo Diário">
-            <button type="submit">Criar novo Diário</button>
-        </form>
+        <section class="content-wrapper">
+            <div class="create-diary">
+                <h2>Crie um novo diário</h2>
 
-        {% for diary in diaries %}
-            <div class="diary">
-                <p>{{ diary.dia_title }}</p>
-
-                <!-- Acessar diário (Ver ou Editar) -->
-                <form action="{{ url_for('diary', diary_id=diary.dia_id) }}"><button type="submit">Acessar</button></form>
-
-                <!-- Deletar diário -->
-                <form method="post" onsubmit="return confirm('Tem certeza que deseja apagar?');">
-                    <input type="hidden" name="action" value="delete">
-                    <input type="hidden" name="diary_id" value="{{ diary.dia_id }}">
-                    <button type="submit">Apagar</button>
+                <form method="post" class="create-diary-form">
+                    <input type="hidden" name="action" value="create">
+                    <input type="text" name="title" placeholder="Título do seu novo diário">
+                    <button type="submit" class="btn btn-primary">Criar Diário</button>
                 </form>
-            </div>
-        {% endfor %}
 
-    {% else %}
-        {% include "header.html" %}
-        <p>deslogado</p>
-        <nav>
-            <a href="/">Home Page</a>
-            <a href="{{ url_for('login') }}">Entrar</a>
-            <a href="{{ url_for('register') }}">Registrar</a>
-        </nav>
+            </div>
+        </section>
+        
+        <hr>
+
+        <section class="diaries-section">
+            <h2>Meus Diários</h2>
+            {% if diaries %}
+                <div class="diaries-grid"> 
+                    {% for diary in diaries %}
+                        <div class="diary-card">
+
+                            <h3>{{ diary.dia_title }}</h3>
+                            
+                            <article class="diary-actions">
+                                <!-- Acessar diário -->
+                                <a href="{{ url_for('diary', diary_id=diary.dia_id) }}" class="btn">Acessar</a>
+                                        
+                                <!-- Deletar diário -->
+                                <form method="post" onsubmit="return confirm('Tem certeza que deseja apagar este diário?');" style="display: inline;">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="diary_id" value="{{ diary.dia_id }}">
+                                    <button type="submit" class="btn btn-danger">Apagar</button>
+                                </form>
+
+                            </article>
+
+                        </div>
+
+                    {% endfor %}
+                </div>
+        </section>
+        {% else %}
+            <p class="no-diaries-message">Você ainda não criou nenhum diário. Que tal começar agora?</p>
+        {% endif %}
+    
     {% endif %}
 
-    {% include "footer.html" %}
-    
 {% endblock content %}

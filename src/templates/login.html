@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 
 {% block head %}
-
+    {{ super() }}
     <title> Login </title>
 
 {% endblock head %}
@@ -20,7 +20,5 @@
         <button type="submit">Submit</button>
 
     </form>
-
-    {% include "footer.html" %}
 
 {% endblock content %}

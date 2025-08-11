@@ -1,22 +1,12 @@
 {% extends 'base.html' %}
 
 {% block head %}
-
+    {{ super() }}
     <title>Profile</title>
 
 {% endblock %}
 
 {% block content %}
-
-    {% include "logged_in.html" %}
-
-
-    <div class="profile_img">
-
-        <img src="" alt="imagem de perfil"> <!-- Quando clicar aqui ele vai pode mudar a foto de perfil -->
-
-    </div>
-
 
     {% if user_id == current_user.user_id %} <!-- Se o usuário estiver acessando o profile de sua conta -->
 
@@ -62,9 +52,5 @@
         <button type="submit" onclick="return confirm('Tem certeza que quer apagar sua conta? ')">Deletar conta</button>
     
     </form>
-    
-
-
-    {% include "footer.html" %}
 
 {% endblock content %}

@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 
 {% block head %}
-
+    {{ super() }}
     <title> Editar Perfil </title>
     
 {% endblock head %}
 
 {% block content %}
-    {% include "logged_in.html" %}
 
     <form method="post">
         <input type="hidden" name="action" value="change_username">
@@ -23,6 +22,4 @@
         
     </form>
 
-
-    {% include "footer.html" %}
 {% endblock content %}
