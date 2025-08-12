@@ -3,15 +3,12 @@
 
 <head>
     {% block head %}
-
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-
     {% endblock head %}
-
 </head>
+
 <body>
     
     {% include "header.html" %}
@@ -20,18 +17,29 @@
         {% block content %}
         {% endblock content %}
     </main>
-    
+
+    <div class="flash-message-container">
     {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <script type="text/javascript">
-                // Exibe uma mensagem de alerta com todas as mensagens flash
-                alert("{% for message in messages %}{{ message }}\n{% endfor %}");
-            </script>
+            {% for message in messages %}
+            <div class="flash-message">
+                {{ message }}
+            </div>
+            {% endfor %}
         {% endif %}
     {% endwith %}
+    </div>
     
     {% include "footer.html" %}
 
+    <script type="text/javascript">
+        // Remove as mensagens flash após alguns segundos
+        const flashMessages = document.querySelectorAll('.flash-message');
+        flashMessages.forEach(flash => {
+            setTimeout(() => {
+                flash.style.display = 'none';
+            }, 5000); // A mensagem some após 5 segundos
+        });
+    </script>
 </body>
-
 </html>

@@ -24,3 +24,16 @@
 - Feito a funcionalidade de publicação dos diários
 - Feito a funcionalidade de visualização de profiles de outros usuários
 - Feito a funcionalidade de visualização de diários de outros usuários
+
+## 3.1. Minor commit (10/08/2025) "Finalizado a implementação do CRUD e mudança da estrutura dos templates"
+
+- Corrigido bugs em relação ao CRUD
+- Implementação do footer.html e header.html direto na base.html
+- Adição da logo
+
+## 4. Major commit (12/08/2025) "Implementação de estilo, páginas de erro personalizadas e melhoria no README"
+
+- Feito o `main.css` com estilo de todas as páginas
+- Feito páginas de erro personalizadas com `@app.errorhandler()`
+- Modificação geral nas páginas html
+- Reorganização de caminhos bugados no README

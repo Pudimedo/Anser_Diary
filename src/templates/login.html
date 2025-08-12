@@ -1,24 +1,26 @@
-<h1>LOGIN</h1>
 {% extends "base.html" %}
 
 {% block head %}
     {{ super() }}
     <title> Login </title>
-
 {% endblock head %}
 
 {% block content %}
+<div class="form-wrapper">
+    <form method="post">
+        <h1>Entrar na sua conta</h1>
 
-    <form action="{{url_for('login')}}" method="post">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="fulano@exemplo.com" name="email" required>
+        </div>
 
-        <label for="email">Email:</label>
-        <input type="text" placeholder="fulano@exemplo.com" name="email">
-
-        <label for="password">Password:</label>
-        <input type="password" placeholder="Password" name="password">
+        <div class="form-group">
+            <label for="password">Senha:</label>
+            <input type="password" id="password" placeholder="Sua senha" name="password" required>
+        </div>
     
-        <button type="submit">Submit</button>
-
+        <button type="submit">Entrar</button>
     </form>
-
+</div>
 {% endblock content %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <title> 404 - Página Não Encontrada </title>
+{% endblock head %}
+
+{% block content %}
+<div class="container">
+    <div class="form-wrapper" style="max-width: 600px; text-align: center;">
+        <h1 style="font-size: 4rem; margin-bottom: 0;">404</h1>
+        <h2>Página Não Encontrada</h2>
+        <p>
+            Desculpe, a página que você está procurando não existe ou foi movida.
+        </p>
+        <div style="margin-top: 2rem;">
+            <a href="{{ url_for('index') }}" class="btn">Voltar para a Página Inicial</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

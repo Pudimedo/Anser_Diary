@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <title> Sobre o Anser Diary </title>
+{% endblock head %}
+
+{% block content %}
+<div class="container">
+    <div class="form-wrapper" style="max-width: 700px; text-align: center;">
+        <h1>Sobre o Anser Diary</h1>
+        <p style="font-size: 1.1rem; line-height: 1.7;">
+            <strong>Anser Diary</strong> é um sistema web feito com o objetivo de guardar textos pessoais, agendas, e o que mais sua imaginação permitir.
+        </p>
+        <hr>
+        <p style="font-size: 1rem; color: var(--secondary-color);">
+            Este projeto foi desenvolvido para a disciplina de PSI (Programação de Sistemas para Internet).
+        </p>
+    </div>
+</div>
+{% endblock content %}

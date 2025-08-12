@@ -3,23 +3,19 @@
 {% block head %}
     {{ super() }}
     <title> Editar Perfil </title>
-    
 {% endblock head %}
 
 {% block content %}
-
-    <form method="post">
-        <input type="hidden" name="action" value="change_username">
-        <input type="text" name="username" value=" {{ current_user.username }} ">
-        <button type="submit">Mudar Nome</button>
-         
-    </form>
-
+<div class="form-wrapper">
+    <h1>Editar Perfil</h1>
     
     <form method="post">
-        <input type="hidden" name="action" value="change_profile_pic">
-        <button type="submit">Mudar foto</button>
-        
+        <input type="hidden" name="action" value="change_username">
+        <div class="form-group">
+            <label for="username">Mudar nome de usuário</label>
+            <input type="text" id="username" name="username" value="{{ current_user.username }}">
+        </div>
+        <button type="submit">Salvar Nome</button>
     </form>
-
+</div>
 {% endblock content %}

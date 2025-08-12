@@ -44,12 +44,15 @@ def index():
             deleteDiary(diary_id)
 
 
-    # busca os diários do usuário para exibir no HTML
     if logged_in:
         diaries = get_every_diary_from_user(current_user)
-        return render_template("index.html", logged_in=logged_in, diaries=diaries)
+        html = render_template("index.html", logged_in=logged_in, diaries=diaries)
+    else:
+        html = render_template("index.html", logged_in=False)
 
-    return render_template("index.html", logged_in=current_user.is_authenticated)
+    response = make_response(html, 200)
+    response.set_cookie("visited_index", "true") # Foi mal romerito eu fiz o site todo sem make_response e depois que vi que precisava, pfvr considere isso :(
+    return response
 
 
 
@@ -155,7 +158,12 @@ def profile(user_id):
                 
             
     # retorna profile.html, user_id que é o id do user atual, profile_user que é o user do profile atual e diaries que são os diarios do user do profile atual
-    return render_template('profile.html', user_id=user_id, profile_user=profile_user, diaries=get_every_diary_from_user(profile_user)) # Acho que eu nunca fiz um código tão feio
+    if profile_user: # se existir o profile que ta tentando acessar
+        return render_template('profile.html', user_id=user_id, profile_user=profile_user, diaries=get_every_diary_from_user(profile_user)) # Acho que eu nunca fiz um código tão feio
+    
+    else:
+        flash("O perfil que você está tentando não existe", "info")
+        return redirect(url_for('index'))
 
 
 @app.route("/edit_profile", methods=["GET", "POST"])
@@ -173,6 +181,20 @@ def edit_profile():
 
     return render_template("edit_profile.html")
 
+
+@app.route("/sobre")
+def sobre():
+    return render_template('sobre.html')
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
 
 if __name__ == "__main__":
     app.run(debug=True)

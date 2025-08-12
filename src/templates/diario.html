@@ -6,18 +6,26 @@
 {% endblock head %}
 
 {% block content %}
-    
-    <form method="post">
-        <input type="text" name="title" value="{{ diary.dia_title }}">
-        
-        <label for="share">Diario público
-            <input type="checkbox" name="share" {% if diary.dia_share %} checked {% endif %}>
-        </label>
+    <div class="container">
+        <form method="post" class="diary-editor-form">
+            <div class="diary-header">
+                <input type="text" name="title" value="{{ diary.dia_title }}">
+                
+                <div class="share-option">
+                    <label for="share">
+                        Tornar público
+                        <input type="checkbox" id="share" name="share" {% if diary.dia_share %} checked {% endif %}>
+                    </label>
+                </div>
+            </div>
+            
+            <textarea name="content" placeholder="Escreva seus pensamentos aqui...">{{ diary.dia_content }}</textarea>
+            
+            <div class="diary-editor-actions">
+                <a href="{{url_for('index')}}" class="btn btn-secondary"> Voltar </a>
+                <button type="submit" class="btn">Salvar Alterações</button>
+            </div>
+        </form>
+    </div>
 
-        <textarea name="content" placeholder="Escreva seu diário aqui">{{ diary.dia_content }}</textarea>
-        <button type="submit">Salvar</button>
-    </form>
-
-    <form action="{{url_for('index')}}"> <button type="submit"> Sair </button> </form>
-    
 {% endblock content %}

@@ -2,24 +2,30 @@
 
 {% block head %}
     {{ super() }}
-    <title> Register </title>
-
+    <title> Registrar </title>
 {% endblock head %}
 
 {% block content %}
+<div class="form-wrapper">
+    <form method="post">
+        <h1>Crie sua conta</h1>
 
-    <form action="{{url_for('register')}}" method="post">
-        <label for="nome">Username:</label>
-        <input type="text" placeholder="exemplouser3" name="username">
+        <div class="form-group">
+            <label for="username">Nome de usuário:</label>
+            <input type="text" id="username" placeholder="exemplouser3" name="username" required>
+        </div>
 
-        <label for="email">Email:</label>
-        <input type="email" placeholder="fulano@exemplo.com" name="email">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="fulano@exemplo.com" name="email" required>
+        </div>
 
-        <label for="password">Password:</label>
-        <input type="password" placeholder="Password" name="password">
+        <div class="form-group">
+            <label for="password">Senha:</label>
+            <input type="password" id="password" placeholder="Crie uma senha forte" name="password" required>
+        </div>
     
-        <button type="submit">Submit</button>
-
+        <button type="submit">Registrar</button>
     </form>
-
+</div>
 {% endblock content %}

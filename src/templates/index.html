@@ -6,19 +6,15 @@
 {% endblock head %}
 
 {% block content %}
-
-    {% if logged_in %}
-        <section class="content-wrapper">
-            <div class="create-diary">
-                <h2>Crie um novo diário</h2>
-
-                <form method="post" class="create-diary-form">
-                    <input type="hidden" name="action" value="create">
-                    <input type="text" name="title" placeholder="Título do seu novo diário">
-                    <button type="submit" class="btn btn-primary">Criar Diário</button>
-                </form>
-
-            </div>
+<div class="container">
+    {% if current_user.is_authenticated %}
+        <section class="create-diary">
+            <h2>Crie um novo diário</h2>
+            <form method="post" class="create-diary-form">
+                <input type="hidden" name="action" value="create">
+                <input type="text" name="title" placeholder="Título para o diário de hoje...">
+                <button type="submit" class="btn">Criar Diário</button>
+            </form>
         </section>
         
         <hr>
@@ -29,31 +25,34 @@
                 <div class="diaries-grid"> 
                     {% for diary in diaries %}
                         <div class="diary-card">
-
                             <h3>{{ diary.dia_title }}</h3>
-                            
-                            <article class="diary-actions">
-                                <!-- Acessar diário -->
+                            <div class="diary-actions">
                                 <a href="{{ url_for('diary', diary_id=diary.dia_id) }}" class="btn">Acessar</a>
-                                        
-                                <!-- Deletar diário -->
+                                
                                 <form method="post" onsubmit="return confirm('Tem certeza que deseja apagar este diário?');" style="display: inline;">
                                     <input type="hidden" name="action" value="delete">
                                     <input type="hidden" name="diary_id" value="{{ diary.dia_id }}">
                                     <button type="submit" class="btn btn-danger">Apagar</button>
                                 </form>
-
-                            </article>
-
+                            </div>
                         </div>
-
                     {% endfor %}
                 </div>
+            {% else %}
+                <p class="no-diaries-message">Você ainda não criou nenhum diário. Que tal começar agora?</p>
+            {% endif %}
         </section>
-        {% else %}
-            <p class="no-diaries-message">Você ainda não criou nenhum diário. Que tal começar agora?</p>
-        {% endif %}
     
+    {% else %}
+        <div style="text-align: center; padding: 4rem 1rem;">
+            
+            <h1>Bem-vindo ao Anser Diary</h1>
+            <p style="font-size: 1.2rem; margin-top: 1rem;">Seu refúgio digital para pensamentos, memórias e reflexões.</p>
+            <div style="margin-top: 2rem;">
+                <a href="{{ url_for('register') }}" class="btn">Crie sua conta gratuitamente</a>
+                <a href="{{ url_for('login') }}" class="btn btn-secondary" style="margin-left: 1rem;">Já tenho uma conta</a>
+            </div>
+        </div>
     {% endif %}
-
+</div>
 {% endblock content %}
