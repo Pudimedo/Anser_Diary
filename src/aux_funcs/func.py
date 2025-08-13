@@ -108,7 +108,7 @@ def deleteDiary(id: int) -> None: # Deleta um diário
     connection.commit()
     connection.close()
 
-def get_every_diary_from_user(user: User) -> sqlite3.SQLITE_ROW:
+def get_every_diary_from_user(user: User):
     connection = get_connection()
     sql = "SELECT * FROM tb_diarios WHERE dia_usu_id = ?"
     diaries = connection.execute(sql, (user.id,)).fetchall()
